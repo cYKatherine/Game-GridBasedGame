@@ -36,7 +36,6 @@ bool Game::Initialise(Direct3D* renderer, InputController* input)
 	if (!LoadTextures())
 		return false;
 
-
 	InitGameWorld();
 
 	return true;
@@ -97,14 +96,14 @@ bool Game::LoadTextures()
 
 void Game::InitGameWorld()
 {
-	const std::string COLOR_SET[6] = { "red", "green", "blue", "orange", "purple", "disabled"};
+	const std::string COLOR_SET[7] = { "red", "green", "blue", "orange", "purple", "disabled", "white"};
 	// Create some Tiles so we can see our grid
 	for (int i = 0; i < 10; i++) {
 		std::vector<Tiles*> tmp;
 		for (int j = 0; j < 10; j++) {
 			Tiles* tmpTile;
 			// Get a random color for the tile
-			int randNum = rand() % 6;
+			int randNum = rand() % 13;
 
 			if (randNum == 5) {
 				tmpTile = new Tiles(
@@ -113,10 +112,11 @@ void Game::InitGameWorld()
 					m_textureManager->GetTexture("Assets/Textures/tile_disabled.png"),
 					i - 5,
 					j - 4,
-					false
+					true
 				);
 			}
 			else {
+				if (randNum > 6) randNum = 6;
 				// Generate the texture file name for the specific color
 				std::string fileName = "Assets/Textures/tile_" + COLOR_SET[randNum] + ".png";
 				const char* file = fileName.c_str();
@@ -140,30 +140,28 @@ void Game::InitGameWorld()
 		std::vector<Tiles*> tmp;
 		for (int j = -1; j < 11; j++) {
 			if (i == -1 || i == 10 || j == -1 || j == 10) {
-				int randNum = rand() % 6;
-				std::string fileName = "Assets/Textures/tile_" + COLOR_SET[randNum] + ".png";
-				const char* file = fileName.c_str();
-
 				Tiles* tmpTile = new Tiles(
 					m_meshManager->GetMesh("Assets/Meshes/wall_tile.obj"),
 					m_unlitTexturedShader,
 					m_textureManager->GetTexture("Assets/Textures/checkerboard.jpg"),
 					i - 5,
 					j - 4,
-					false
+					true
 				);
 				tmp.push_back(tmpTile);
 			}
 		}
 		m_wall.push_back(tmp);
 	}
+
+	m_player = new Player(m_meshManager->GetMesh("Assets/Meshes/player_capsule.obj"), m_input, m_unlitTexturedShader, m_textureManager->GetTexture("Assets/Textures/checkerboard.jpg"));
 }
 
 void Game::Update(float timestep)
 {
 	m_input->BeginUpdate();
 	
-	// TODO update all gameobjects
+	m_player->Update(m_grid);
 
 	m_currentCam->Update(timestep);
 
@@ -188,6 +186,7 @@ void Game::Render()
 		}
 	}
 
+	m_player->Render(m_renderer, m_currentCam);
 
 	m_renderer->EndScene();		
 }
@@ -207,6 +206,8 @@ void Game::Shutdown()
 			delete m_wall[i][j];
 		}
 	}
+
+	delete m_player;
 
 	if (m_currentCam)
 	{

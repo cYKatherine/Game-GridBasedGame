@@ -7,7 +7,8 @@ Tiles::Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, floa
 	m_shader = shader;
 	
 	m_color = color;
-	m_visited = false;
+	if (color == "diabled") m_visited = true;
+	else m_visited = false;
 }
 
 Tiles::Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, float positionZ, bool visited) {
@@ -20,11 +21,12 @@ Tiles::Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, floa
 	m_visited = visited;
 }
 
-void Tiles::setTexture() {
-	const char* fileName = ("Assets/Textures/tile_%c.png", m_color).c_str();
-	std::cout << fileName << "\n";
-	TextureManager* m_textureManager = new TextureManager;
-	m_texture = m_textureManager->GetTexture("Assets/Textures/tile_blue.png");
+std::string Tiles::getColor() {
+	return m_color;
+}
+
+bool Tiles::getVisited() {
+	return m_visited;
 }
 
 void Tiles::Render(Direct3D* renderer, Camera* cam) {
@@ -32,4 +34,8 @@ void Tiles::Render(Direct3D* renderer, Camera* cam) {
 		m_world = Matrix::CreateScale(1.0f, 1.0f, 1.0f) * Matrix::CreateTranslation(m_position);
 		m_mesh->Render(renderer, m_shader, m_world, cam, m_texture);
 	}
+}
+
+void Tiles::Update() {
+	m_visited = true;
 }

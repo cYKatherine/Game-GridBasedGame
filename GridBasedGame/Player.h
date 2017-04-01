@@ -6,7 +6,9 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Tiles.h"
 #include <iostream>
+#include <vector>
 
 class Player {
 private:
@@ -20,12 +22,13 @@ private:
 
 	float m_uniformScale;
 	int m_health;
+
+	bool insideWall(Vector3 currentPosition, std::vector<std::vector<Tiles*>> m_grid);
 public:
 	Player(Mesh* mesh, InputController* input, Shader* shader, Texture* texture);
 
-	void Update();
+	void Update(std::vector<std::vector<Tiles*>> m_grid);
 	void Render(Direct3D* renderer, Camera* cam);
-	void Move();
 };
 
 #endif

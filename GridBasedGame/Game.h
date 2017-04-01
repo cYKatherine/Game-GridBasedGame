@@ -25,6 +25,7 @@ private:
 
 	std::vector<std::vector<Tiles*>> m_grid;
 	std::vector<std::vector<Tiles*>> m_wall;
+	Player* m_player;
 
 	// Splitting initialisation up into several steps
 	bool InitShaders();

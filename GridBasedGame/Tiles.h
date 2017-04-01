@@ -26,9 +26,10 @@ public:
 	Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, float positionZ, std::string color);
 	Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, float positionZ, bool visited);
 
+	std::string getColor();
+	bool getVisited();
+
 	void Render(Direct3D* renderer, Camera* cam);
 	void Update();
-
-	void setTexture();
 };
 #endif // !TILES_H
