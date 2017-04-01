@@ -27,6 +27,7 @@ bool Game::Initialise(Direct3D* renderer, InputController* input)
 	m_textureManager = new TextureManager();
 	m_currentCam = new Camera();
 
+
 	if (!InitShaders())
 		return false;
 
@@ -117,6 +118,7 @@ void Game::InitGameWorld()
 			}
 			else {
 				if (randNum > 6) randNum = 6;
+				//if (randNum == 2) Tiles::BLUE_TILES.push_back(Vector3(i-5, 0, j-4));
 				// Generate the texture file name for the specific color
 				std::string fileName = "Assets/Textures/tile_" + COLOR_SET[randNum] + ".png";
 				const char* file = fileName.c_str();
@@ -154,14 +156,16 @@ void Game::InitGameWorld()
 		m_wall.push_back(tmp);
 	}
 
-	m_player = new Player(m_meshManager->GetMesh("Assets/Meshes/player_capsule.obj"), m_input, m_unlitTexturedShader, m_textureManager->GetTexture("Assets/Textures/checkerboard.jpg"));
+	Vector3 position = Vector3(rand() % 10 - 5, 0, rand() % 10 - 4);
+	m_move = new Move(m_meshManager->GetMesh("Assets/Meshes/progress_cube.obj"), m_unlitTexturedShader, m_textureManager->GetTexture("Assets/Textures/tile_blue.png"), Vector3(position.x, 1, position.z));
+	m_player = new Player(m_meshManager->GetMesh("Assets/Meshes/player_capsule.obj"), m_input, m_unlitTexturedShader, m_textureManager->GetTexture("Assets/Textures/checkerboard.jpg"), m_move, position);
 }
 
 void Game::Update(float timestep)
 {
 	m_input->BeginUpdate();
 	
-	m_player->Update(m_grid);
+	m_player->Update(m_grid, m_textureManager);
 
 	m_currentCam->Update(timestep);
 
@@ -187,6 +191,7 @@ void Game::Render()
 	}
 
 	m_player->Render(m_renderer, m_currentCam);
+	m_move->Render(m_renderer, m_currentCam);
 
 	m_renderer->EndScene();		
 }
