@@ -6,6 +6,8 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "TextureManager.h"
+#include "Enemy.h"
+#include "EnemyFactory.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -23,6 +25,7 @@ private:
 	Vector3 m_position;
 
 	bool m_visited;
+	std::vector<Enemy*> m_enemy;
 public:
 	Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, float positionZ, std::string color);
 	Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, float positionZ, bool visited);

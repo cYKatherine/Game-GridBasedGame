@@ -7,12 +7,13 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Move.h"
+#include "Character.h"
 #include <iostream>
 #include <vector>
 
 class Tiles;
 
-class Player {
+class Player : public Character{
 private:
 	InputController* m_input;
 
@@ -24,7 +25,8 @@ private:
 	Move* m_move;
 
 	float m_uniformScale;
-	int m_health;
+	int m_enemyKilled;
+	int m_score;
 
 	bool insideWall(Vector3 currentPosition, std::vector< std::vector<Tiles*> > m_grid);
 public:
@@ -35,7 +37,9 @@ public:
 	void Render(Direct3D* renderer, Camera* cam);
 
 	void loseHealth(int newHealth);
-	void getHealth(int newHealth);
+	void gainHealth(int newHealth);
+	virtual void damageTarget(Character* target, int damage);
+	virtual void attack(std::vector<Character*> targets);
 	Vector3 getPosition();
 };
 

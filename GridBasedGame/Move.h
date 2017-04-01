@@ -26,6 +26,7 @@ public:
 
 	void updateMoveLeft(int move);
 	void updatePosition(Vector3 position);
+	int getMoveLeft();
 };
 
 #endif

@@ -157,8 +157,16 @@ void Game::InitGameWorld()
 	}
 
 	Vector3 position = Vector3(rand() % 10 - 5, 0, rand() % 10 - 4);
-	m_move = new Move(m_meshManager->GetMesh("Assets/Meshes/progress_cube.obj"), m_unlitTexturedShader, m_textureManager->GetTexture("Assets/Textures/tile_blue.png"), Vector3(position.x, 1, position.z));
-	m_player = new Player(m_meshManager->GetMesh("Assets/Meshes/player_capsule.obj"), m_input, m_unlitTexturedShader, m_textureManager->GetTexture("Assets/Textures/checkerboard.jpg"), m_move, position);
+	m_move = new Move(
+		m_meshManager->GetMesh("Assets/Meshes/progress_cube.obj"),
+		m_unlitTexturedShader, m_textureManager->GetTexture("Assets/Textures/tile_red.png"),
+		Vector3(position.x, 0.5, position.z)
+	);
+	m_player = new Player(
+		m_meshManager->GetMesh("Assets/Meshes/player_capsule.obj"),
+		m_input, m_unlitTexturedShader, m_textureManager->GetTexture("Assets/Textures/checkerboard.jpg"),
+		m_move, position
+	);
 }
 
 void Game::Update(float timestep)

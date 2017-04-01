@@ -6,7 +6,7 @@ Move::Move(Mesh* mesh, Shader* shader, Texture* texture, Vector3 position) {
 	m_texture = texture;
 
 	m_position = position;
-	moveLeft = 50;
+	moveLeft = 10;
 	m_uniformScale = (double)moveLeft / 50.00;
 	m_world = Matrix::Identity;
 }
@@ -28,4 +28,8 @@ void Move::updateMoveLeft(int move) {
 
 void Move::updatePosition(Vector3 position) {
 	m_position = position;
+}
+
+int Move::getMoveLeft() {
+	return moveLeft;
 }
