@@ -60,7 +60,6 @@ void Tiles::event(Player* m_player, TextureManager* m_textureManager) {
 		while (m_player->getHealth() > 0 && stillAlive.size() > 1) {
 			//Iterates through the participants vector and calls each character's attack function
 			for (Character* attacker : stillAlive) {
-				std::cout << m_player->getHealth() << "\n";
 				//Ensures that any defeated participants do not get to attack
 				if (attacker->getHealth() > 0) {
 					attacker->attack(stillAlive);

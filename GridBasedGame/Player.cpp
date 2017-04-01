@@ -6,12 +6,36 @@ void Player::damageTarget(Character* target, int damage)
 	target->setHealth(target->getHealth() - damage);
 	if (target->getHealth() <= 0) {
 		m_enemyKilled += 1;
-		if (dynamic_cast<Enemy*>(target)->getRank() == "Hatchling") m_score += 1;
-		else if (dynamic_cast<Enemy*>(target)->getRank() == "Grunt") m_score += 2;
-		else if (dynamic_cast<Enemy*>(target)->getRank() == "baby") m_score += 3;
-		else if (dynamic_cast<Enemy*>(target)->getRank() == "Queen") m_score += 4;
-		else if (dynamic_cast<Enemy*>(target)->getRank() == "Berserker") m_score += 5;
-		else if (dynamic_cast<Enemy*>(target)->getRank() == "Red") m_score += 6;
+		if (dynamic_cast<Enemy*>(target)->getRank() == "Hatchling") {
+			m_score += 1;
+			m_strength += 10;
+		}
+		else if (dynamic_cast<Enemy*>(target)->getRank() == "Grunt") {
+			m_score += 2;
+			m_magic += 10;
+			m_health += 20;
+		}
+		else if (dynamic_cast<Enemy*>(target)->getRank() == "baby") {
+			m_score += 3;
+			m_strength += 10;
+			m_magic += 10;
+			m_health += 50;
+		}
+		else if (dynamic_cast<Enemy*>(target)->getRank() == "Queen") {
+			m_score += 4;
+			m_strength += 20;
+		}
+		else if (dynamic_cast<Enemy*>(target)->getRank() == "Berserker") {
+			m_score += 5;
+			m_magic += 20;
+			m_health += 40;
+		}
+		else if (dynamic_cast<Enemy*>(target)->getRank() == "Red") {
+			m_score += 6;
+			m_strength += 20;
+			m_magic += 20;
+			m_health += 100;
+		}
 	}
 }
 
@@ -27,8 +51,8 @@ Player::Player(Mesh* mesh, InputController* input, Shader* shader, Texture* text
 	m_enemyKilled = 0;
 	m_score = 0;
 
-	m_health = 2000;
-	m_uniformScale = (double)m_health / 2000.00;
+	m_health = 1000;
+	m_uniformScale = (double)m_health / 1000.00;
 	m_world = Matrix::Identity;
 }
 
@@ -54,13 +78,13 @@ void Player::attack(std::vector<Character*> targets) {
 
 void Player::Update(std::vector<std::vector<Tiles*>> m_grid, TextureManager* m_textureManager) {
 	if (m_health <= 0) {
-		std::string message = "Your have defeated " + m_enemyKilled;
-		MessageBox(0, message.c_str(), "FIT2096 - Assignment 1", MB_OK);
+		std::string message = "Defeat monsters: " + std::to_string(m_enemyKilled) + "\nScore: " + std::to_string(m_score);
+		MessageBox(0, message.c_str(), "Player died", MB_OK);
 		PostQuitMessage(0);
 	}
 	if (m_move->getMoveLeft() <= 0) {
-		std::string message = "Defeated: " + m_enemyKilled;
-		MessageBox(0, message.c_str(), "FIT2096 - Assignment 1", MB_OK);
+		std::string message = "Defeat monsters: " + std::to_string(m_enemyKilled) + "\nScore: " + std::to_string(m_score);
+		MessageBox(0, message.c_str(), "Run out of move", MB_OK);
 		PostQuitMessage(0);
 	}
 	if (m_input->GetKeyDown(VK_LEFT) && insideWall(m_position + Vector3(-1, 0, 0), m_grid)) {
@@ -85,7 +109,7 @@ void Player::Update(std::vector<std::vector<Tiles*>> m_grid, TextureManager* m_t
 	m_move->updatePosition(Vector3(m_position.x, 0.5, m_position.z));
 	m_move->Update();
 
-	m_uniformScale = (double)m_health / 2000.00;
+	m_uniformScale = (double)m_health / 1000.00;
 	m_world = Matrix::CreateScale(Vector3(m_uniformScale, m_uniformScale, m_uniformScale)) * Matrix::CreateTranslation(m_position);
 }
 
