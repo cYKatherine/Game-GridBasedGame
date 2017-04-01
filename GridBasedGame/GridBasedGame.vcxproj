@@ -112,11 +112,13 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Direct3D.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="MathsHelper.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="Move.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Shader.h" />
@@ -129,11 +131,13 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Direct3D.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="Move.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />

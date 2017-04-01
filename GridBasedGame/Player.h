@@ -6,9 +6,11 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "Tiles.h"
+#include "Move.h"
 #include <iostream>
 #include <vector>
+
+class Tiles;
 
 class Player {
 private:
@@ -19,16 +21,22 @@ private:
 	Texture* m_texture;
 	Shader* m_shader;
 	Vector3 m_position;
+	Move* m_move;
 
 	float m_uniformScale;
 	int m_health;
 
-	bool insideWall(Vector3 currentPosition, std::vector<std::vector<Tiles*>> m_grid);
+	bool insideWall(Vector3 currentPosition, std::vector< std::vector<Tiles*> > m_grid);
 public:
-	Player(Mesh* mesh, InputController* input, Shader* shader, Texture* texture);
+	Player(Mesh* mesh, InputController* input, Shader* shader, Texture* texture, Move* move, Vector3 position);
 
-	void Update(std::vector<std::vector<Tiles*>> m_grid);
+	void Player::teleport(Vector3 newPosition);
+	void Update(std::vector<std::vector<Tiles*>> m_grid, TextureManager* m_textureManager);
 	void Render(Direct3D* renderer, Camera* cam);
+
+	void loseHealth(int newHealth);
+	void getHealth(int newHealth);
+	Vector3 getPosition();
 };
 
 #endif

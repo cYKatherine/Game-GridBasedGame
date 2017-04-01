@@ -8,11 +8,12 @@
 #include "TextureManager.h"
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 
+class Player;
 
 class Tiles {
 private:
-	//const std::string COLOR_SET[6] = { "red", "green", "blue", "grey", "orange", "purple" };
 	std::string m_color;
 
 	Mesh* m_mesh;
@@ -26,10 +27,12 @@ public:
 	Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, float positionZ, std::string color);
 	Tiles(Mesh* mesh, Shader* shader, Texture* texture, float positionX, float positionZ, bool visited);
 
-	std::string getColor();
+	void event(Player* m_player, TextureManager* m_textureManager);
 	bool getVisited();
 
 	void Render(Direct3D* renderer, Camera* cam);
-	void Update();
+	void Update(TextureManager* m_textureManager);
+
+	static std::vector<Vector3>BLUE_TILES;
 };
 #endif // !TILES_H
